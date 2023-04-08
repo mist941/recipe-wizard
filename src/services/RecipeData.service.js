@@ -1,6 +1,6 @@
 import {getFunctions, httpsCallable} from 'firebase/functions';
 import {getFirestore} from 'firebase/firestore';
-import {getAuth} from 'firebase/auth';
+
 import firebase from "firebase/compat";
 
 export async function createRecipe(ingredients) {
@@ -15,13 +15,9 @@ export async function createRecipe(ingredients) {
   }
 }
 
-export async function fetchUserRecipes() {
-  const auth = getAuth(firebase.default.apps[0]);
-
-  const userId = auth.currentUser.uid;
-
-  const recipesRef = getRecipeCollection();
-  const query = recipesRef.where('userId', '==', userId);
+export async function fetchUserRecipes(user) {
+  const recipesRef = firebase.firestore().collection('recipes');
+  const query = recipesRef.where('userId', '==', user.uid);
 
   try {
     const querySnapshot = await query.get();
@@ -32,12 +28,11 @@ export async function fetchUserRecipes() {
         id: doc.id,
         ...doc.data()
       };
-
       recipes.push(recipe);
     });
     return recipes;
   } catch (e) {
-    console.error('Error fetching recipes for user', userId, ':', e);
+    console.error('Error fetching recipes for user', user.uid, ':', e);
   }
 }
 

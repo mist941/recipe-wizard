@@ -8,7 +8,7 @@ import {RegisterScreenStyles} from './RegisterScreen.styles';
 import {Text} from 'react-native';
 import AuthForm from '../../forms/AuthFrom/AuthForm';
 import AuthScreenRedirect from '../../components/AuthScreenRedirect/AuthScreenRedirect';
-import {AuthContext} from '../../navigation/AuthProvider';
+import {AuthContext} from '../../contexts/AuthProvider';
 
 const RegisterScreen = ({navigation}) => {
   const {register} = useContext(AuthContext);
