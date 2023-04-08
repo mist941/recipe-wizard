@@ -1,20 +1,23 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import {StatusBar} from 'expo-status-bar';
+import {SafeAreaView, StyleSheet} from 'react-native';
+import commonStyles from './src/common.styles';
+import * as firebase from 'firebase';
+import config from './config';
+
+if (!firebase.default.apps.length) firebase.default.initializeApp(config.firebaseConfig);
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text></Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView style={styles.container}>
+      <StatusBar style="auto"/>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    height: '100%',
+    width: '100%',
+    backgroundColor: commonStyles.backgroundApp,
   },
 });
