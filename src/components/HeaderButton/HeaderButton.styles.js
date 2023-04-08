@@ -3,8 +3,8 @@ import commonStyles from '../../common.styles';
 
 export const HeaderButtonStyles = StyleSheet.create({
   button: {
-    height: 50,
-    width: 50,
+    height: 45,
+    width: 45,
     backgroundColor: commonStyles.primaryBackground,
     display: 'flex',
     justifyContent: 'center',

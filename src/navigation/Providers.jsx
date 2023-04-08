@@ -1,10 +1,13 @@
-import AuthProvider from './AuthProvider';
+import AuthProvider from '../contexts/AuthProvider';
 import Routes from './Routes';
+import RecipesProvider from '../contexts/RecipesProvider';
 
 const Providers = () => {
   return (
     <AuthProvider>
-      <Routes/>
+      <RecipesProvider>
+        <Routes/>
+      </RecipesProvider>
     </AuthProvider>
   );
 };

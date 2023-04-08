@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 import HeaderButton from '../HeaderButton/HeaderButton';
 import commonStyles from '../../common.styles';
 import {routes} from '../../constants';
-import {AuthContext} from '../../navigation/AuthProvider';
+import {AuthContext} from '../../contexts/AuthProvider';
 import BackIcon from '../../icons/BackIcon';
 import LogoutIcon from '../../icons/LogoutIcon';
 

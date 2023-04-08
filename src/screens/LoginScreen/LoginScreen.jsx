@@ -8,7 +8,7 @@ import {LoginScreenStyles} from './LoginScreen.styles';
 import {Text} from 'react-native';
 import AuthForm from '../../forms/AuthFrom/AuthForm';
 import AuthScreenRedirect from '../../components/AuthScreenRedirect/AuthScreenRedirect';
-import {AuthContext} from '../../navigation/AuthProvider';
+import {AuthContext} from '../../contexts/AuthProvider';
 
 const LoginScreen = ({navigation}) => {
   const {login} = useContext(AuthContext);
