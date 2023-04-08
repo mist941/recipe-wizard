@@ -6,5 +6,7 @@ export const buttonTypes = {
 export const routes = {
   login: 'Login',
   register: 'Register',
-  home: 'Home'
+  home: 'Home',
+  newRecipe: 'New Recipe',
+  allRecipes: 'All Recipes',
 };

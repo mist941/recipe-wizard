@@ -1,9 +1,9 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import LoginScreen from '../screens/LoginScreen/LoginScreen';
 import {routes} from '../constants';
-import RegisterScreen from '../screens/RegisterScreen/RegisterScreen';
 import HomeScreen from '../screens/HomeScreen/HomeScreen';
+import NewRecipeScreen from '../screens/NewRecipeScreen/NewRecipeScreen';
+import AllRecipesScreen from '../screens/AllRecipesScreen/AllRecipesScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,7 +16,17 @@ const AppStack = () => {
       <Stack.Screen
         name={routes.home}
         component={HomeScreen}
-        options={{header: () => null}}
+        options={{header: () => {}}}
+      />
+      <Stack.Screen
+        name={routes.newRecipe}
+        component={NewRecipeScreen}
+        options={{header: () => {}}}
+      />
+      <Stack.Screen
+        name={routes.allRecipes}
+        component={AllRecipesScreen}
+        options={{header: () => {}}}
       />
     </Stack.Navigator>
   );
