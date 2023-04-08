@@ -5,5 +5,6 @@ export const buttonTypes = {
 
 export const routes = {
   login: 'Login',
-  register: 'Register'
+  register: 'Register',
+  home: 'Home'
 };

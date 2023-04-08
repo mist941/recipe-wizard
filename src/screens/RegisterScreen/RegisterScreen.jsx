@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import ScreenWrapper from '../../components/ScreenWrapper/ScreenWrapper';
 import AuthHeader from '../../components/AuthHeader/AuthHeader';
 import {buttonTypes, routes} from '../../constants';
@@ -8,12 +8,10 @@ import {RegisterScreenStyles} from './RegisterScreen.styles';
 import {Text} from 'react-native';
 import AuthForm from '../../forms/AuthFrom/AuthForm';
 import AuthScreenRedirect from '../../components/AuthScreenRedirect/AuthScreenRedirect';
+import {AuthContext} from '../../navigation/AuthProvider';
 
 const RegisterScreen = ({navigation}) => {
-
-  const onSubmit = params => {
-
-  }
+  const {register} = useContext(AuthContext);
 
   const registerByGoogle = () => {
 
@@ -24,7 +22,7 @@ const RegisterScreen = ({navigation}) => {
       <AuthHeader type={routes.register}/>
       <Button Icon={GoogleIcon} type={buttonTypes.secondary} onClick={registerByGoogle}/>
       <Text style={RegisterScreenStyles.loginFormTitle}>or Register with Email</Text>
-      <AuthForm submit={onSubmit} type={routes.register}/>
+      <AuthForm submit={register} type={routes.register}/>
       <AuthScreenRedirect type={routes.login} onClick={() => navigation.navigate(routes.login)}/>
     </ScreenWrapper>
   );
