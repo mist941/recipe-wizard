@@ -1,5 +1,6 @@
 import {getFunctions, httpsCallable} from 'firebase/functions';
 import {getFirestore} from 'firebase/firestore';
+import {getStorage, ref, getDownloadURL} from 'firebase/storage';
 
 import firebase from "firebase/compat";
 
@@ -16,7 +17,7 @@ export async function createRecipe(ingredients) {
 }
 
 export async function fetchUserRecipes(user) {
-  const storage = firebase.storage();
+  const storage = getStorage(firebase.default.apps[0])
   const recipesRef = firebase.firestore().collection('recipes');
   const query = recipesRef.where('userId', '==', user.uid);
 
@@ -33,7 +34,7 @@ export async function fetchUserRecipes(user) {
     });
 
     return await Promise.all(recipes.map(async recipe => {
-      const image = await storage.ref(recipe.image).getDownloadURL()
+      const image = await getDownloadURL(ref(storage, recipe.image));
       return {...recipe, image}
     }));
   } catch (e) {
