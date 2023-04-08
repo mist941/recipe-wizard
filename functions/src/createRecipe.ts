@@ -16,6 +16,7 @@ export interface RecipeData {
 admin.initializeApp();
 
 const db = admin.firestore();
+const storage = admin.storage();
 
 export const createRecipe = functions
     .runWith({
@@ -51,7 +52,7 @@ export const createRecipe = functions
         throw new Error('Invalid response');
     }
 
-    recipeData.image = (await generateImage(apiKey, recipeData.image)) || ''
+    recipeData.image = (await generateImage(apiKey, recipeData.image, storage, userId)) || ''
 
     const endTime = performance.now();
     const elapsedTimeInSeconds = (endTime - startTime) / 1000;
