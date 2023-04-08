@@ -16,6 +16,7 @@ export async function createRecipe(ingredients) {
 }
 
 export async function fetchUserRecipes(user) {
+  const storage = firebase.storage();
   const recipesRef = firebase.firestore().collection('recipes');
   const query = recipesRef.where('userId', '==', user.uid);
 
@@ -30,7 +31,11 @@ export async function fetchUserRecipes(user) {
       };
       recipes.push(recipe);
     });
-    return recipes;
+
+    return await Promise.all(recipes.map(async recipe => {
+      const image = await storage.ref(recipe.image).getDownloadURL()
+      return {...recipe, image}
+    }));
   } catch (e) {
     console.error('Error fetching recipes for user', user.uid, ':', e);
   }
