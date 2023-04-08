@@ -1,10 +1,12 @@
 import React from 'react';
+import AuthStack from './AuthStack';
+import {NavigationContainer} from '@react-navigation/native';
 
 const Routes = () => {
   return (
-    <div>
-      
-    </div>
+    <NavigationContainer>
+      <AuthStack/>
+    </NavigationContainer>
   );
 };
 
