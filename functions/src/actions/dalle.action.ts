@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Buffer } from "buffer";
 
 export async function generateImage(
     apiKey: string,
@@ -45,20 +46,20 @@ export async function generateImage(
     }
 }
 
-async function fetchImageAsBlob(imageUrl: string): Promise<Blob> {
+async function fetchImageAsBlob(imageUrl: string): Promise<Buffer> {
     const response = await axios.get(imageUrl, {
         responseType: "arraybuffer",
     });
 
-    return new Blob([response.data], {type: response.headers["content-type"]});
+    return Buffer.from(response.data);
 }
 
 async function uploadImageToFirebase(
     storage: any,
     imagePath: string,
-    imageBlob: Blob
+    imageBlob: Buffer
 ): Promise<void> {
-    const file = storage.bucket().file(imagePath);
+    const file = storage.bucket('recipe-wizard-b101d.appspot.com').file(imagePath);
     await file.save(imageBlob);
 }
 
