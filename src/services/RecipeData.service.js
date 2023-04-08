@@ -1,4 +1,6 @@
 import {getFunctions, httpsCallable} from 'firebase/functions';
+import {getFirestore} from 'firebase/firestore';
+
 import firebase from "firebase/compat";
 
 export async function createRecipe(ingredients) {
@@ -33,3 +35,20 @@ export async function fetchUserRecipes(user) {
     console.error('Error fetching recipes for user', user.uid, ':', e);
   }
 }
+
+
+export async function removeRecipe(id) {
+  const recipesRef = getRecipeCollection();
+  return recipesRef.doc(id).delete();
+}
+
+export async function markAsFavorite(id) {
+  const recipesRef = getRecipeCollection();
+  return recipesRef.doc(id).update({ isFavorite: true });
+}
+
+function getRecipeCollection() {
+  const store = getFirestore(firebase.default.apps[0]);
+  return store.collection('recipes');
+}
+
