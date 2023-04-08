@@ -8,8 +8,8 @@ export async function createRecipe(ingredients) {
   const functions = getFunctions(firebase.default.apps[0]);
 
   try {
-    const createRecipeFn = httpsCallable(functions, 'createRecipe');
-    const result = await createRecipeFn(ingredients);
+    const createRecipeFn = httpsCallable(functions, 'createRecipe', { timeout: 30000 });
+    const result = await createRecipeFn({ ingredients });
     return result.data;
   } catch (error) {
     console.error('Error calling function:', error);
