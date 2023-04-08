@@ -1,15 +1,36 @@
-import {getFunctions, httpsCallable} from 'firebase/functions';
 import {getFirestore} from 'firebase/firestore';
-
 import firebase from "firebase/compat";
 
 export async function createRecipe(ingredients) {
-  const functions = getFunctions(firebase.default.apps[0]);
-
   try {
-    const createRecipeFn = httpsCallable(functions, 'createRecipe');
-    const result = await createRecipeFn(ingredients);
-    return result.data;
+    return fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer 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`,
+      },
+      body: JSON.stringify({
+        model: "gpt-3.5-turbo",
+        messages: [
+          {
+            role: "system",
+            content: "I am a professional cook who can invent unexpected dishes from basic ingredients is a culinary mastermind."
+          },
+          {
+            role: "user", content:
+              `
+                        create a recipe for me with the following ingredients ${ingredients.join(', ')}. do not add extra ingredients, in write your answer in the following json form.
+
+                        {
+                            name: ...,
+                            description: (this will be the recipe),
+                            image: (here write a prompt to generate a photo for this dish)
+                        }
+                        `
+          }
+        ],
+      }),
+    }).then(response => response.json());
   } catch (error) {
     console.error('Error calling function:', error);
   }
@@ -44,7 +65,7 @@ export async function removeRecipe(id) {
 
 export async function markAsFavorite(id) {
   const recipesRef = getRecipeCollection();
-  return recipesRef.doc(id).update({ isFavorite: true });
+  return recipesRef.doc(id).update({isFavorite: true});
 }
 
 function getRecipeCollection() {
@@ -52,3 +73,9 @@ function getRecipeCollection() {
   return store.collection('recipes');
 }
 
+function parseGptResponse(content) {
+  const regex = /{[\s\S]*}/;
+  const match = content.match(regex);
+  const jsonStr = match ? match[0] : null;
+  return jsonStr ? JSON.parse(jsonStr) : null;
+}
