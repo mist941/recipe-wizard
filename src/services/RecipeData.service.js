@@ -16,12 +16,11 @@ export async function createRecipe(ingredients) {
 }
 
 export async function fetchUserRecipes() {
-  const store = getFirestore(firebase.default.apps[0]);
   const auth = getAuth(firebase.default.apps[0]);
 
   const userId = auth.currentUser.uid;
 
-  const recipesRef = store.collection('recipes');
+  const recipesRef = getRecipeCollection();
   const query = recipesRef.where('userId', '==', userId);
 
   try {
@@ -41,3 +40,20 @@ export async function fetchUserRecipes() {
     console.error('Error fetching recipes for user', userId, ':', e);
   }
 }
+
+
+export async function removeRecipe(id) {
+  const recipesRef = getRecipeCollection();
+  return recipesRef.doc(id).delete();
+}
+
+export async function markAsFavorite(id) {
+  const recipesRef = getRecipeCollection();
+  return recipesRef.doc(id).update({ isFavorite: true });
+}
+
+function getRecipeCollection() {
+  const store = getFirestore(firebase.default.apps[0]);
+  return store.collection('recipes');
+}
+
