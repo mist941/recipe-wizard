@@ -6,6 +6,7 @@ export const ScreenWrapperStyles = StyleSheet.create({
     height: '100%',
     backgroundColor: commonStyles.backgroundApp,
     paddingHorizontal: '7%',
+    paddingTop: '4%',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center'
