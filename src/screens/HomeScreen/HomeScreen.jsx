@@ -9,7 +9,12 @@ import RecipeDetails from '../../components/RecipeDetails/RecipeDetails';
 
 const HomeScreen = ({navigation}) => {
   const [selectedRecipe, setRecipe] = useState(null);
-  const {recipes} = useContext(RecipesContext);
+  const {recipes, removeRecipe} = useContext(RecipesContext);
+
+  const removeRecipeAction = () => {
+    removeRecipe(selectedRecipe.id);
+    setRecipe(null);
+  }
 
   return (
     <ScreenWrapper containerHeight='80%'>
@@ -22,6 +27,7 @@ const HomeScreen = ({navigation}) => {
         <RecipeDetails
           recipe={selectedRecipe}
           unSelectRecipe={() => setRecipe(null)}
+          removeRecipe={removeRecipeAction}
         />
       )}
       {!selectedRecipe && (

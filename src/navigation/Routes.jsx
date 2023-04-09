@@ -25,6 +25,8 @@ const Routes = () => {
     }
   }
 
+  useEffect(() => onAuthStateChanged(user), [user?.uid]);
+
   useEffect(() => {
     return firebase.default.auth().onAuthStateChanged(onAuthStateChanged);
   }, []);

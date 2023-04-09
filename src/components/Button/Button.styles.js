@@ -16,6 +16,9 @@ export const ButtonStyles = StyleSheet.create({
   primary: {
     backgroundColor: commonStyles.tertiaryBackground,
   },
+  remove: {
+    backgroundColor: commonStyles.errColor,
+  },
   text: {
     fontSize: 18,
     fontWeight: 500,

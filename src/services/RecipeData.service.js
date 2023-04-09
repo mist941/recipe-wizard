@@ -64,22 +64,12 @@ export async function removeRecipe(id) {
   return recipesRef.doc(id).delete();
 }
 
-export async function markAsFavorite(id) {
-  const recipesRef = getRecipeCollection();
-  return recipesRef.doc(id).update({isFavorite: true});
-}
-
 export async function addRecipe(recipe) {
   const recipesRef = getRecipeCollection();
-  return recipesRef.add(recipe).then((docRef) => {
-    return docRef.get();
-  }).then((doc) => {
-    if (doc.exists) {
-      return doc.data();
-    } else {
-      console.log("No such document!");
-    }
-  })
+  const preparedRef = await recipesRef.add(recipe);
+  const preparedDoc = await preparedRef.get();
+  const result = await preparedDoc.data();
+  return {id: preparedRef.id, ...result};
 }
 
 function getRecipeCollection() {

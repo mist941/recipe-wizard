@@ -1,5 +1,5 @@
 import {createContext, useState} from 'react';
-import {addRecipe} from '../services/RecipeData.service';
+import {addRecipe, removeRecipe} from '../services/RecipeData.service';
 
 export const RecipesContext = createContext();
 
@@ -15,6 +15,11 @@ const RecipesProvider = ({children}) => {
           const newRecipe = {...recipe, ingredients, userId: user.uid, createdAt: Date.now()};
           addRecipe(newRecipe).then(res => {
             setRecipes(prevState => ([...prevState, res]));
+          });
+        },
+        removeRecipe: (recipeId) => {
+          removeRecipe(recipeId).then(() => {
+            setRecipes(prevState => prevState.filter(recipe => recipe.id !== recipeId));
           });
         }
       }}

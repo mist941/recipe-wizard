@@ -4,7 +4,7 @@ import {buttonTypes} from '../../constants';
 import Button from '../Button/Button';
 import {RecipeDetailsStyles} from './RecipeDetails.styles';
 
-const RecipeDetails = ({recipe, skipRecipe, saveRecipe, unSelectRecipe}) => {
+const RecipeDetails = ({recipe, skipRecipe, saveRecipe, unSelectRecipe, removeRecipe}) => {
   return (
     <>
       <Text style={RecipeDetailsStyles.title}>{recipe.name}</Text>
@@ -12,13 +12,21 @@ const RecipeDetails = ({recipe, skipRecipe, saveRecipe, unSelectRecipe}) => {
         <Text style={RecipeDetailsStyles.description}>{recipe.description}</Text>
       </ScrollView>
       <View style={RecipeDetailsStyles.buttons}>
-        {unSelectRecipe ? (
-          <Button
-            style={RecipeDetailsStyles.button}
-            type={buttonTypes.secondary}
-            text="Back"
-            onClick={unSelectRecipe}
-          />
+        {(unSelectRecipe && removeRecipe) ? (
+          <>
+            <Button
+              style={RecipeDetailsStyles.button}
+              type={buttonTypes.secondary}
+              text="Back"
+              onClick={unSelectRecipe}
+            />
+            <Button
+              style={RecipeDetailsStyles.button}
+              type={buttonTypes.remove}
+              text="Delete"
+              onClick={removeRecipe}
+            />
+          </>
         ) : (
           <>
             <Button
