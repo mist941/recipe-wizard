@@ -2,9 +2,9 @@ import React, {useContext, useState} from 'react';
 import ScreenWrapper from '../../components/ScreenWrapper/ScreenWrapper';
 import {createRecipe} from '../../services/RecipeData.service';
 import NewRecipeContent from './component/NewRecipeContent/NewRecipeContent';
-import NewRecipeDetails from './component/NewRecipeDetails/NewRecipeDetails';
 import {RecipesContext} from '../../contexts/RecipesProvider';
 import {AuthContext} from '../../contexts/AuthProvider';
+import RecipeDetails from '../../components/RecipeDetails/RecipeDetails';
 
 const NewRecipeScreen = () => {
   const {addRecipe} = useContext(RecipesContext);
@@ -34,11 +34,10 @@ const NewRecipeScreen = () => {
   return (
     <ScreenWrapper containerHeight="75%">
       {recipe ? (
-        <NewRecipeDetails
+        <RecipeDetails
           recipe={recipe}
           skipRecipe={skipRecipe}
           saveRecipe={saveRecipe}
-          ingredients={ingredients}
         />
       ) : (
         <NewRecipeContent

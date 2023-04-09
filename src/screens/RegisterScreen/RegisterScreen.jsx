@@ -20,8 +20,8 @@ const RegisterScreen = ({navigation}) => {
   return (
     <ScreenWrapper containerHeight={'65%'}>
       <AuthHeader type={routes.register}/>
-      <Button Icon={GoogleIcon} type={buttonTypes.secondary} onClick={registerByGoogle}/>
-      <Text style={RegisterScreenStyles.loginFormTitle}>or Register with Email</Text>
+      {/*<Button Icon={GoogleIcon} type={buttonTypes.secondary} onClick={registerByGoogle}/>*/}
+      {/*<Text style={RegisterScreenStyles.loginFormTitle}>or Register with Email</Text>*/}
       <AuthForm submit={register} type={routes.register}/>
       <AuthScreenRedirect type={routes.login} onClick={() => navigation.navigate(routes.login)}/>
     </ScreenWrapper>

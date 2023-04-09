@@ -14,11 +14,15 @@ const Routes = () => {
   const [initializing, setInitializing] = useState(true);
 
   const onAuthStateChanged = (user) => {
-    if (user){
+    if (user) {
       setUser(user);
-      fetchUserRecipes(user).then(res => setRecipes(res));
+      fetchUserRecipes(user).then(res => {
+        setRecipes(res);
+        if (initializing) setInitializing(false);
+      });
+    } else {
+      if (initializing) setInitializing(false);
     }
-    if (initializing) setInitializing(false);
   }
 
   useEffect(() => {

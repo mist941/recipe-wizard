@@ -10,6 +10,7 @@ const RecipesProvider = ({children}) => {
     <RecipesContext.Provider
       value={{
         recipes,
+        setRecipes: recipeList => setRecipes(recipeList),
         addRecipe: (recipe, ingredients, user) => {
           const newRecipe = {...recipe, ingredients, userId: user.uid, createdAt: Date.now()};
           addRecipe(newRecipe).then(res => {

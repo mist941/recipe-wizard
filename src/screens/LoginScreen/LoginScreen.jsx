@@ -20,8 +20,8 @@ const LoginScreen = ({navigation}) => {
   return (
     <ScreenWrapper containerHeight={'65%'}>
       <AuthHeader type={routes.login}/>
-      <Button Icon={GoogleIcon} type={buttonTypes.secondary} onClick={signInByGoogle}/>
-      <Text style={LoginScreenStyles.loginFormTitle}>or Login with Email</Text>
+      {/*<Button Icon={GoogleIcon} type={buttonTypes.secondary} onClick={signInByGoogle}/>*/}
+      {/*<Text style={LoginScreenStyles.loginFormTitle}>or Login with Email</Text>*/}
       <AuthForm submit={login} type={routes.login}/>
       <AuthScreenRedirect type={routes.register} onClick={() => navigation.navigate(routes.register)}/>
     </ScreenWrapper>

@@ -1,7 +1,7 @@
 import {StyleSheet} from 'react-native';
-import commonStyles from '../../../../common.styles';
+import commonStyles from '../../common.styles';
 
-export const NewRecipeDetailsStyles = StyleSheet.create({
+export const RecipeDetailsStyles = StyleSheet.create({
   title: {
     marginBottom: 15,
     color: commonStyles.primaryTextColor,
@@ -23,5 +23,5 @@ export const NewRecipeDetailsStyles = StyleSheet.create({
   },
   button: {
     width: 140,
-  }
+  },
 });
