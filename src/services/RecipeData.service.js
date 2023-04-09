@@ -1,4 +1,3 @@
-import {getFirestore} from 'firebase/firestore';
 import firebase from "firebase/compat";
 import config from '../../config';
 

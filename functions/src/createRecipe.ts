@@ -22,60 +22,50 @@ export const createRecipe = functions
     .runWith({
         timeoutSeconds: 300,
     })
-    .https.onRequest(async (req, res) => {
+    .https.onCall(async ({ ingredients }, context) => {
 
-    const ingredients = req.body.ingredients;
-    const idToken = req.headers.authorization?.split('Bearer ')[1];
+        if (!context.auth?.uid) {
+            throwUnauthorizedRequestError()
+        }
 
-    if (!idToken) {
-        throwUnauthorizedRequestError()
-    }
+        const apiKey = process.env.OPENAI_API_KEY;
 
-    const decodedToken = await admin.auth().verifyIdToken(idToken);
-    const userId = decodedToken.uid;
+        if (!apiKey) {
+            throw new Error('No openai api key');
+        }
 
-    if (!userId) {
-        throwUnauthorizedRequestError()
-    }
+        const startTime = performance.now();
 
-    const apiKey = process.env.OPENAI_API_KEY;
+        const recipeData = await askRecipe(apiKey, ingredients);
 
-    if (!apiKey) {
-        throw new Error('No openai api key');
-    }
+        if (!recipeData) {
+            throw new Error('Invalid response');
+        }
 
-    const startTime = performance.now();
+        recipeData.image = (await generateImage(apiKey, recipeData.image, storage, context.auth?.uid)) || ''
 
-    const recipeData = await askRecipe(apiKey, ingredients);
+        const endTime = performance.now();
+        const elapsedTimeInSeconds = (endTime - startTime) / 1000;
+        console.log(`Request took ${elapsedTimeInSeconds} seconds to execute`);
 
-    if (!recipeData) {
-        throw new Error('Invalid response');
-    }
+        const { image, name, description } = recipeData;
 
-    recipeData.image = (await generateImage(apiKey, recipeData.image, storage, userId)) || ''
+        const recipe = {
+            image,
+            name,
+            description,
+            userId: context.auth?.uid,
+            ingredients: ingredients,
+            createdAt: Date.now()
+        };
 
-    const endTime = performance.now();
-    const elapsedTimeInSeconds = (endTime - startTime) / 1000;
-    console.log(`Request took ${elapsedTimeInSeconds} seconds to execute`);
+        const recipeRef = await db.collection('recipes').add(recipe);
+        const recipeSnapshot = await recipeRef.get();
 
-    const { image, name, description } = recipeData;
-
-    const recipe = {
-        image,
-        name,
-        description,
-        userId: userId,
-        ingredients: ingredients,
-        createdAt: Date.now()
-    };
-
-    const recipeRef = await db.collection('recipes').add(recipe);
-    const recipeSnapshot = await recipeRef.get();
-
-    res.json({
-        id: recipeRef.id,
-        ...recipeSnapshot.data()
-    });
+        return {
+            id: recipeRef.id,
+            ...recipeSnapshot.data()
+        };
 });
 
 function throwUnauthorizedRequestError(): never {
