@@ -1,7 +1,7 @@
 import {StyleSheet} from 'react-native';
-import commonStyles from '../../common.styles';
+import commonStyles from '../../../../common.styles';
 
-export const NewRecipeScreenStyles = StyleSheet.create({
+export const NewRecipeContentStyles = StyleSheet.create({
   searchTitle: {
     marginBottom: 15,
     color: commonStyles.primaryTextColor,
@@ -12,7 +12,8 @@ export const NewRecipeScreenStyles = StyleSheet.create({
   ingredientsList: {
     display: 'flex',
     flexDirection: 'row',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    marginTop: 20
   },
   ingredient: {
     paddingVertical: 2,
@@ -21,10 +22,17 @@ export const NewRecipeScreenStyles = StyleSheet.create({
     borderWidth: 1,
     borderColor: commonStyles.secondaryTextColor,
     backgroundColor: commonStyles.primaryBackground,
-    marginRight: 5,
+    marginRight: 10,
     marginBottom: 5
   },
   ingredientName: {
     color: commonStyles.secondaryTextColor
+  },
+  waitMessage: {
+    marginBottom: 40,
+    color: commonStyles.primaryTextColor,
+    fontWeight: 600,
+    fontSize: 18,
+    textAlign: 'center'
   }
 });

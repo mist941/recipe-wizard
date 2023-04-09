@@ -1,13 +1,14 @@
 import {getFirestore} from 'firebase/firestore';
 import firebase from "firebase/compat";
+import config from '../../config';
 
 export async function createRecipe(ingredients) {
   try {
-    return fetch("https://api.openai.com/v1/chat/completions", {
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer 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`,
+        Authorization: `Bearer ${config.chatKey}`,
       },
       body: JSON.stringify({
         model: "gpt-3.5-turbo",
@@ -31,6 +32,7 @@ export async function createRecipe(ingredients) {
         ],
       }),
     }).then(response => response.json());
+    return parseGptResponse(response.choices[0].message.content);
   } catch (error) {
     console.error('Error calling function:', error);
   }
@@ -57,7 +59,6 @@ export async function fetchUserRecipes(user) {
   }
 }
 
-
 export async function removeRecipe(id) {
   const recipesRef = getRecipeCollection();
   return recipesRef.doc(id).delete();
@@ -68,9 +69,21 @@ export async function markAsFavorite(id) {
   return recipesRef.doc(id).update({isFavorite: true});
 }
 
+export async function addRecipe(recipe) {
+  const recipesRef = getRecipeCollection();
+  return recipesRef.add(recipe).then((docRef) => {
+    return docRef.get();
+  }).then((doc) => {
+    if (doc.exists) {
+      return doc.data();
+    } else {
+      console.log("No such document!");
+    }
+  })
+}
+
 function getRecipeCollection() {
-  const store = getFirestore(firebase.default.apps[0]);
-  return store.collection('recipes');
+  return firebase.firestore().collection('recipes');
 }
 
 function parseGptResponse(content) {

@@ -1,57 +1,54 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import ScreenWrapper from '../../components/ScreenWrapper/ScreenWrapper';
-import LottieView from 'lottie-react-native';
-import {Text, View} from 'react-native';
-import {NewRecipeScreenStyles} from './NewRecipeScreen.styles';
-import AutocompleteInput from '../../components/AutocompleteInput/AutocompleteInput';
-import {buttonTypes} from '../../constants';
-import Button from '../../components/Button/Button';
 import {createRecipe} from '../../services/RecipeData.service';
+import NewRecipeContent from './component/NewRecipeContent/NewRecipeContent';
+import NewRecipeDetails from './component/NewRecipeDetails/NewRecipeDetails';
+import {RecipesContext} from '../../contexts/RecipesProvider';
+import {AuthContext} from '../../contexts/AuthProvider';
 
-const NewRecipeScreen = ({navigation}) => {
+const NewRecipeScreen = () => {
+  const {addRecipe} = useContext(RecipesContext);
+  const {user} = useContext(AuthContext);
+  const [recipe, setRecipe] = useState(null);
   const [ingredients, setIngredients] = useState([]);
   const [recipeInProgress, setRecipeProgress] = useState(false);
 
   const generateRecipe = () => {
     setRecipeProgress(true);
     createRecipe(ingredients).then(res => {
-      console.log(res.choices[0]);
+      setRecipe(res);
       setRecipeProgress(false);
     });
   }
 
+  const deleteIngredient = ingredient => {
+    setIngredients(prevState => prevState.filter(i => i !== ingredient));
+  }
+
+  const skipRecipe = () => {
+    setRecipe(null);
+  }
+
+  const saveRecipe = () => addRecipe(recipe, ingredients, user);
+
   return (
     <ScreenWrapper containerHeight="75%">
-      {recipeInProgress ? (
-        <LottieView
-          source={require('../../lottie/cooking.json')}
-          autoPlay
-          loop
+      {recipe ? (
+        <NewRecipeDetails
+          recipe={recipe}
+          skipRecipe={skipRecipe}
+          saveRecipe={saveRecipe}
+          ingredients={ingredients}
         />
       ) : (
-        <View>
-          <Text style={NewRecipeScreenStyles.searchTitle}>
-            Add a list of ingredients and we will create a recipe
-          </Text>
-          <AutocompleteInput
-            placeholder="Type to search ingredients"
-            values={ingredients}
-            setValue={item => setIngredients(prevState => [...prevState, item])}
-          />
-          <View style={NewRecipeScreenStyles.ingredientsList}>
-            {ingredients.map(ingredient => (
-              <View key={ingredient} style={NewRecipeScreenStyles.ingredient}>
-                <Text style={NewRecipeScreenStyles.ingredientName}>{ingredient}</Text>
-              </View>
-            ))}
-          </View>
-        </View>
+        <NewRecipeContent
+          recipeInProgress={recipeInProgress}
+          deleteIngredient={deleteIngredient}
+          generateRecipe={generateRecipe}
+          ingredients={ingredients}
+          setIngredients={setIngredients}
+        />
       )}
-      <Button
-        type={buttonTypes.primary}
-        text="Get recipe"
-        onClick={generateRecipe}
-      />
     </ScreenWrapper>
   );
 };

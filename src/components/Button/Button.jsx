@@ -5,7 +5,7 @@ import {ButtonStyles} from './Button.styles';
 import {buttonTypes} from '../../constants';
 import {Text} from 'react-native';
 
-const Button = ({onClick, Icon, text = "", type = buttonTypes.primary}) => {
+const Button = ({onClick, Icon, text = "", type = buttonTypes.primary, style}) => {
   const animatedOpacity = useRef(new Animated.Value(1)).current;
   const handlePress = useOpacityAnimate(animatedOpacity, onClick);
 
@@ -14,7 +14,8 @@ const Button = ({onClick, Icon, text = "", type = buttonTypes.primary}) => {
       <Animated.View style={[
         ButtonStyles.buttonContainer,
         ButtonStyles[type],
-        {opacity: animatedOpacity}
+        {opacity: animatedOpacity},
+        style
       ]}>
         {Icon && <Icon/>}
         {text.length > 0 && <Text style={ButtonStyles.text}>{text}</Text>}
