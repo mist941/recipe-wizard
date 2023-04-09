@@ -29,7 +29,11 @@ const NewRecipeScreen = () => {
     setRecipe(null);
   }
 
-  const saveRecipe = () => addRecipe(recipe, ingredients, user);
+  const saveRecipe = () => {
+    addRecipe(recipe, ingredients, user);
+    setRecipe(null);
+    setIngredients([]);
+  };
 
   return (
     <ScreenWrapper containerHeight="75%">

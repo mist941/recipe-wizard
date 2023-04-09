@@ -14,7 +14,7 @@ const RecipesProvider = ({children}) => {
         addRecipe: (recipe, ingredients, user) => {
           const newRecipe = {...recipe, ingredients, userId: user.uid, createdAt: Date.now()};
           addRecipe(newRecipe).then(res => {
-            setRecipes(prevState => ({...prevState, res}));
+            setRecipes(prevState => ([...prevState, res]));
           });
         }
       }}

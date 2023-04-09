@@ -11,6 +11,11 @@ export const RecipeListStyles = StyleSheet.create({
     marginBottom: 15,
     borderRadius: 10
   },
+  titleWrap: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
   title: {
     color: commonStyles.primaryTextColor,
     fontWeight: 600,
