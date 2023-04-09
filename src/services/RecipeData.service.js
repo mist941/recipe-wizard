@@ -9,7 +9,7 @@ export async function createRecipe(ingredients) {
   const storage = getStorage(firebase.default.apps[0])
 
   try {
-    const createRecipeFn = httpsCallable(functions, 'createRecipe', { timeout: 30000 });
+    const createRecipeFn = httpsCallable(functions, 'createRecipe', { timeout: 300000 });
     const result = await createRecipeFn({ ingredients });
 
     return {
